@@ -1,0 +1,9 @@
+{
+  "packages": {
+    "celestial": {
+      "path": "../"
+    },
+    "famono": {},
+    "iron-router": {}
+  }
+}
