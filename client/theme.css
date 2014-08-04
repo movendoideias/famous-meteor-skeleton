@@ -1,33 +1,35 @@
 body {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    margin: 0px;
+    padding: 0px;
 }
 
 button {
-  background: transparent;
-  color: #fff;
-  border-radius: 5px;
-  border: 1px solid #fff;
-  display: inline-block;
-  padding: 10px;
-  text-decoration: none;
-  margin-top: 15px;
-  outline: none;
+    background: transparent;
+    color: #fff;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    margin-top: 15px;
+    outline: none;
 }
 
 h1 {
-  margin-top: 30%;
+    margin-top: 30%;
 }
 
 div.view1, div.view2 {
-  color: #fff;
-  text-align: center;
+    color: #fff;
+    text-align: center;
 }
 
 div.view1 {
-  background: #EA3556;
+    background: #EA3556;
 }
 
 div.view2 {
-  background: #61D2D6;
+    background: #61D2D6;
 }

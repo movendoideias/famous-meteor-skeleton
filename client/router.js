@@ -13,7 +13,6 @@ Router.map(function() {
         }
     });
   
-  
     this.route('view2', {
         template: 'blank',
         path: '/view2',
