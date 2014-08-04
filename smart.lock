@@ -2,25 +2,19 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "celestial": {},
-      "famono": {},
-      "iron-router": {}
+      "iron-router": {},
+      "famono": {}
     },
     "packages": {
-      "celestial": {
-        "git": "https://github.com/andrewreedy/meteor-celestial.git",
-        "tag": "v0.0.1",
-        "commit": "20f4d22f0355908e115b1d8a7d5810a6115cbe5c"
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.8.2",
+        "commit": "05415a8891ea87a00fb1e2388585f2ca5a38e0da"
       },
       "famono": {
         "git": "https://github.com/raix/Meteor-famono.git",
         "tag": "v0.6.9",
         "commit": "893cdd0e0d68804b7812ea9ca73702f3bdfd7cd2"
-      },
-      "iron-router": {
-        "git": "https://github.com/EventedMind/iron-router.git",
-        "tag": "v0.8.2",
-        "commit": "05415a8891ea87a00fb1e2388585f2ca5a38e0da"
       },
       "iron-layout": {
         "git": "https://github.com/EventedMind/iron-layout.git",

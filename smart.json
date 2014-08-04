@@ -1,7 +1,6 @@
 {
   "packages": {
-    "celestial": {},
-    "famono": {},
-    "iron-router": {}
+    "iron-router": {},
+    "famono": {}
   }
 }

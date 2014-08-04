@@ -1,19 +1,26 @@
-Router.map(function() {
-
-  this.route("View1", {
-    path: "/:transition?",
-    template: "blank",
-    onBeforeAction: function() {
-      Celestial.show("View1", this.params.transition);
-    }
-  });
-
-  this.route("View2", {
-    path: "/view2/:transition?",
-    template: "blank",
-    onBeforeAction: function() {
-      Celestial.show("View2", this.params.transition);
-    }
-  });
-  
+// Global router config
+Router.configure({
+    layoutTemplate: 'blank'
 });
+
+Router.map(function() {  
+  
+    this.route('view1', {
+        template: 'blank',
+        path: '/',
+        action: function() {
+            AppView.goTo('view1');
+        }
+    });
+  
+  
+    this.route('view2', {
+        template: 'blank',
+        path: '/view2',
+        action: function() {
+            AppView.goTo('view2');
+        }
+    });
+
+});
+

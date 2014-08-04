@@ -9,10 +9,10 @@
 
 <template name="view1">
   <h1>OMG SO FAMOUS!!!!</h1> 
-  <button class="view2">View 2</button>
+  <a href="{{pathFor 'view2' }}" class="view2">View 2</a>
 </template>
 
 <template name="view2">
   <h1>AND METEOR YAY!!!</h1>
-  <button class="view1">View 1</button>
+  <a href="{{pathFor 'view1' }}" class="view1">View 1</a>
 </template>
