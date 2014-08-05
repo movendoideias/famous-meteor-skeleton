@@ -55,11 +55,7 @@ function _createLayout() {
         headerSize: this.options.headerSize
     });
 
-    var layoutModifier = new StateModifier({
-        transform: Transform.translate(0, 0, 0.1)
-    });
-
-    this.add(layoutModifier).add(this.layout);
+    this.add(this.layout);
 }
 
 function _createBody() {  
@@ -71,20 +67,7 @@ function _setListeners() {
 }
 
 function _createHeader() {
-    var backgroundSurface = new Surface({
-        properties: {
-            backgroundColor: 'black'
-        }
-    });
-
-    var backgroundModifier = new StateModifier({
-        transform: Transform.behind
-    });
-
     this.layout.header = new HeaderView();
-
-    //this.layout.header.add(createFamousView('headerLayout').view);
-    //this.layout.header.add(hamburgerModifier).add(this.hamburgerSurface);
 }
 
 PageView.prototype._defaultTransitions = [

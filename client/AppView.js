@@ -70,8 +70,7 @@ AppView.DEFAULT_OPTIONS = {};
 
 function _createPageView() {
     AppView.pageView = new PageView();
-    this.pageModifier = new StateModifier();
-    this.add(this.pageModifier).add(AppView.pageView);
+    this.add(AppView.pageView);
 }
 
 createFamousView = function(templateName) {
