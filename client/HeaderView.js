@@ -8,9 +8,6 @@ var StateModifier = famous.modifiers.StateModifier;
 HeaderView = function(options) {
     View.apply(this, arguments);
 
-    //_createBackground.call(this);
-    //_createProfileCircle.call(this);
-    //_addTitle.call(this);
     _createHeader.call(this);
 }
 
@@ -21,96 +18,78 @@ HeaderView.DEFAULT_OPTIONS = {
     title: 'Título'
 };
 
-function _createBackground() {
-
-    this.backgroundSurface = new Surface({
+function _createHeader() {
+    this.menuSurf = new Surface({
+        size: [undefined, 44],
         properties: {
-            backgroundColor: 'black'
+            backgroundColor: '#292929'
         }
     });
+    this.menuMod = new Modifier({});
 
-    this._add(this.backgroundSurface);
-}
-
-function _createProfileCircle() {
-    this.profileSurface = new Surface({
-        size: [50, 50],
+    //filter icon
+    this.filterViewSelected = false;
+    this.filterIconSurf = new Surface({
+        size: [35,35],
+        content: 'Voltar',
         properties: {
-            color: 'white',
+            padding: '5px',
             backgroundColor: '#FA5C4F'
         }
     });
-
-    this.profileModifier = new StateModifier({
-        origin: [1, 0]
+    this.filterIconMod = new Modifier({
+        opacity: 1
     });
 
-    this._add(this.profileModifier).add(this.profileSurface);
-}
-
-function _addTitle() {
-
-    this.titleSurface = new Surface({
-        size: [undefined, true],
-        content: this.options.title,
-        classes: ['title'],
+    //x-icon
+    this.xIconSurf = new Surface({
+        size: [40,40],
+        content: 'Voltar',
         properties: {
+            paddingTop: '0.4px',
+            paddingLeft: '2.6px',
+            backgroundColor: '#FA5C4F'
+        },
+    });
+    this.xIconMod = new Modifier({
+        opacity: 0
+    });
+
+
+    //title
+    var titleSurf = new Surface({
+        size: [140, 35],
+        content: 'Título',
+        properties: {
+            fontFamily: 'Arial Narrow',
+            fontSize: '24px',
+            color: 'white',
             textAlign: 'center',
-            fontFamily: 'Helvetica, sans-serif',
-            fontWeight: 500
+            paddingTop: '8px'
+
         }
     });
-
-    this.titleModifier = new Modifier({
-        origin: [0.5, 0.35]
+    var titleMod = new Modifier({
+        origin: [0.5, 0]
     });
 
-    this._add(this.titleModifier).add(this.titleSurface);
-}
-
-function _createHeader() {
-    var backgroundSurface = new Surface({
+    //question icon
+    var questionIconSurf = new Surface({
+        size: [40,40],
+        content: 'Menu',
         properties: {
-            backgroundColor: 'black'
+            paddingTop: '2px',
+            paddingRight: '50px',
+            backgroundColor: '#FA5C4F'
         }
     });
-
-    this.hamburgerSurface = new Surface({
-        size: [44, 44],
-        content : 'img/hamburger.png'
+    var questionIconMod = new Modifier({
+        origin: [.99, 0]
     });
 
-    var searchSurface = new Surface({
-        size: [232, 44],
-        content : 'img/search.png'
-    });
-
-    var iconSurface = new Surface({
-        size: [44, 44],
-        content : 'img/icon.png'
-    });
-
-    var backgroundModifier = new StateModifier({
-        transform : Transform.behind
-    });
-
-    var hamburgerModifier = new StateModifier({
-        origin: [0, 0.5],
-        align : [0, 0.5]
-    });
-
-    var searchModifier = new StateModifier({
-        origin: [0.5, 0.5],
-        align : [0.5, 0.5]
-    });
-
-    var iconModifier = new StateModifier({
-        origin: [1, 0.5],
-        align : [1, 0.5]
-    });
-
-    this.add(backgroundModifier).add(backgroundSurface);
-    this.add(hamburgerModifier).add(this.hamburgerSurface);
-    this.add(searchModifier).add(searchSurface);
-    this.add(iconModifier).add(iconSurface);
+    this._add(this.menuMod).add(this.menuSurf);
+    this._add(this.filterIconMod).add(this.filterIconSurf);
+    this._add(this.xIconMod).add(this.xIconSurf);
+    this._add(titleMod).add(titleSurf);
+    this._add(questionIconMod).add(questionIconSurf);
 }

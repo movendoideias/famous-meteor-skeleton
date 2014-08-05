@@ -1,11 +1,13 @@
 var Surface = famous.core.Surface;
 var View = famous.core.View;
 var Transform = famous.core.Transform;
+var Modifier = famous.core.Modifier;
 var StateModifier = famous.modifiers.StateModifier;
 
 AppView = function() {
     View.apply(this, arguments);
 
+    _createHeaderView.call(this);
     _createPageView.call(this);
     _setListeners.call(this);
 };
@@ -71,6 +73,15 @@ AppView.DEFAULT_OPTIONS = {};
 function _createPageView() {
     AppView.pageView = new PageView();
     this.add(AppView.pageView);
+}
+
+function _createHeaderView() {
+    this.headerView = new HeaderView();
+
+    this.headerMod = new Modifier({
+        transform: Transform.translate(0, 0, 1)
+    });
+    this._add(this.headerMod).add(this.headerView);
 }
 
 createFamousView = function(templateName) {

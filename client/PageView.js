@@ -15,10 +15,7 @@ PageView = function() {
         this.addTransition(this._defaultTransitions[i].name, this._defaultTransitions[i].transition)
     }
 
-    _createLayout.call(this);
-    _createHeader.call(this);
     _createBody.call(this);
-    _setListeners.call(this);
 };
 
 PageView.prototype = Object.create(View.prototype);
@@ -44,30 +41,10 @@ PageView.prototype.goTo = function(view, transition) {
 
     this._renderController.show(view);
 };
-
-PageView.DEFAULT_OPTIONS = {
-    headerSize: 44
-};
-
-var layout = null;
-function _createLayout() {
-    layout = this.layout = new HeaderFooter({
-        headerSize: this.options.headerSize
-    });
-
-    this.add(this.layout);
-}
+PageView.DEFAULT_OPTIONS = { };
 
 function _createBody() {  
-    this.layout.content.add(this._renderController);
-}
-
-function _setListeners() {
-    
-}
-
-function _createHeader() {
-    this.layout.header = new HeaderView();
+    this.add(this._renderController);
 }
 
 PageView.prototype._defaultTransitions = [
