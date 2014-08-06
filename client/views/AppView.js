@@ -10,13 +10,18 @@ AppView = function() {
 
     this.menuToggle = false;
     this.timelineToggle = false;
+    this.notificationToggle = false;
+    
     this.pageViewPos = new Transitionable(0);
+    this.pageViewHorizontalPos = new Transitionable(0);
     this.timelineViewPos = new Transitionable(window.innerHeight);
+    this.notificationViewPos = new Transitionable(-window.innerHeight);
 
     _createHeaderView.call(this);
     _createPageView.call(this);
     _createTimelineView.call(this);
     _createMenuView.call(this);
+    _createNotificationView.call(this);
 
     _setListeners.call(this);
 };
@@ -65,17 +70,17 @@ function _createPageView() {
     AppView.pageView = new PageView();
     this.pageModifier = new Modifier({
         transform: function() {
-            return Transform.translate(this.pageViewPos.get(), 0, 0);
+            return Transform.translate(this.pageViewPos.get(), this.pageViewHorizontalPos.get(), 1);
         }.bind(this)
     });
-    this._add(this.pageModifier).add(this.scaleModifier).add(AppView.pageView);
+    this._add(this.pageModifier).add(AppView.pageView);
 }
 
 function _createHeaderView() {
     AppView.headerView = new HeaderView();
     this.headerMod = new Modifier({
         transform: function() {
-            return Transform.translate(this.pageViewPos.get(), 0, 2);
+            return Transform.translate(this.pageViewPos.get(), this.pageViewHorizontalPos.get(), 3);
         }.bind(this)
     });
     this._add(this.headerMod).add(AppView.headerView);
@@ -90,15 +95,26 @@ function _createTimelineView() {
     AppView.timelineView = new TimelineView();
     this.timelineMod = new Modifier({
         transform: function() {
-            return Transform.translate(0, this.timelineViewPos.get(), 1);
+            return Transform.translate(0, this.timelineViewPos.get(), 2);
         }.bind(this)
     });
     this._add(this.timelineMod).add(AppView.timelineView);
 }
 
+function _createNotificationView() {
+    AppView.notificationView = new NotificationView();
+    this.notificationMod = new Modifier({
+        transform: function() {
+            return Transform.translate(0, this.notificationViewPos.get(), 1);
+        }.bind(this)
+    });
+    this._add(this.notificationMod).add(AppView.notificationView);
+}
+
 function _setListeners() {
     AppView.headerView.on('menuToggle', this.toggleMenu.bind(this));
     AppView.headerView.on('timelineToggle', this.toggleTimeline.bind(this));
+    AppView.headerView.on('notificationToggle', this.toggleNotification.bind(this));
 }
 
 AppView.prototype.toggleMenu = function() {
@@ -111,7 +127,7 @@ AppView.prototype.toggleMenu = function() {
 };
 
 AppView.prototype.menuSlideLeft = function() {
-    this.pageViewPos.set(0, this.options.transition, function() {
+    this.pageViewPos.set(0, this.options.menuTransition, function() {
         this.menuToggle = false;
     }.bind(this));
 };
@@ -141,6 +157,29 @@ AppView.prototype.toggleTimeline = function() {
         this.timelineSlideDown();
     }
     this.timelineToggle = !this.timelineToggle;
+};
+
+AppView.prototype.notificationSlideDown = function() {
+    this.pageViewHorizontalPos.set(window.innerHeight - 80, this.options.menuTransition);
+    this.notificationViewPos.set(-80, this.options.menuTransition, function() {
+        this.toggleNotification = false;
+    }.bind(this));
+};
+
+AppView.prototype.notificationSlideUp = function() {
+    this.pageViewHorizontalPos.set(0, this.options.menuTransition);
+    this.notificationViewPos.set(-window.innerHeight, this.options.menuTransition, function() {
+        this.toggleNotification = true;
+    }.bind(this));
+};
+
+AppView.prototype.toggleNotification = function() {
+    if(this.notificationToggle) {
+        this.notificationSlideDown();
+    } else {
+        this.notificationSlideUp();
+    }
+    this.notificationToggle = !this.notificationToggle;
 };
 
 createFamousView = function(templateName) {

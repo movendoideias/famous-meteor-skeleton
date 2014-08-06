@@ -44,7 +44,7 @@ function _createHeader() {
     });
 
     //title
-    var titleSurf = new Surface({
+    this.titleSurf = new Surface({
         size: [140, 35],
         content: 'Título',
         properties: {
@@ -76,7 +76,7 @@ function _createHeader() {
 
     this._add(this.menuMod).add(this.menuSurf);
     this._add(this.filterIconMod).add(this.filterIconSurf);
-    this._add(titleMod).add(titleSurf);
+    this._add(titleMod).add(this.titleSurf);
     this._add(questionIconMod).add(this.questionIconSurf);
 }
 
@@ -88,6 +88,10 @@ function _setListeners() {
     this.filterIconSurf.on('click', function() {
         this._eventOutput.emit('timelineToggle');
     }.bind(this));
-    
+
+    this.menuSurf.on('click', function() {
+        this._eventOutput.emit('notificationToggle');
+    }.bind(this));
+
     //this.bodySurface.pipe(this._eventOutput);
 }
