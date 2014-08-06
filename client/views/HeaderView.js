@@ -43,21 +43,6 @@ function _createHeader() {
         opacity: 1
     });
 
-    //x-icon
-    this.xIconSurf = new Surface({
-        size: [40,40],
-        content: 'Voltar',
-        properties: {
-            paddingTop: '0.4px',
-            paddingLeft: '2.6px',
-            backgroundColor: '#FA5C4F'
-        },
-    });
-    this.xIconMod = new Modifier({
-        opacity: 0
-    });
-
-
     //title
     var titleSurf = new Surface({
         size: [140, 35],
@@ -91,7 +76,6 @@ function _createHeader() {
 
     this._add(this.menuMod).add(this.menuSurf);
     this._add(this.filterIconMod).add(this.filterIconSurf);
-    this._add(this.xIconMod).add(this.xIconSurf);
     this._add(titleMod).add(titleSurf);
     this._add(questionIconMod).add(this.questionIconSurf);
 }
@@ -101,5 +85,9 @@ function _setListeners() {
         this._eventOutput.emit('menuToggle');
     }.bind(this));
 
+    this.filterIconSurf.on('click', function() {
+        this._eventOutput.emit('timelineToggle');
+    }.bind(this));
+    
     //this.bodySurface.pipe(this._eventOutput);
 }

@@ -9,10 +9,13 @@ AppView = function() {
     View.apply(this, arguments);
 
     this.menuToggle = false;
+    this.timelineToggle = false;
     this.pageViewPos = new Transitionable(0);
+    this.timelineViewPos = new Transitionable(window.innerHeight);
 
     _createHeaderView.call(this);
     _createPageView.call(this);
+    _createTimelineView.call(this);
     _createMenuView.call(this);
 
     _setListeners.call(this);
@@ -48,11 +51,12 @@ AppView.prototype = Object.create(View.prototype);
 AppView.prototype.constructor = AppView;
 
 AppView.DEFAULT_OPTIONS = {
-    openPosition: -276,
-    transition: {
+    menuOpenPosition: -276,
+    menuTransition: {
         duration: 300,
         curve: 'easeOut'
     },
+    timelineOpenPosition: -276,
     posThreshold: 138,
     velThreshold: 0.75
 };
@@ -71,14 +75,10 @@ function _createHeaderView() {
     AppView.headerView = new HeaderView();
     this.headerMod = new Modifier({
         transform: function() {
-            return Transform.translate(this.pageViewPos.get(), 0, 1);
+            return Transform.translate(this.pageViewPos.get(), 0, 2);
         }.bind(this)
     });
     this._add(this.headerMod).add(AppView.headerView);
-}
-
-function _setListeners() {
-    AppView.headerView.on('menuToggle', this.toggleMenu.bind(this));
 }
 
 function _createMenuView() {
@@ -86,26 +86,61 @@ function _createMenuView() {
     this._add(this.menuView);
 }
 
+function _createTimelineView() {
+    AppView.timelineView = new TimelineView();
+    this.timelineMod = new Modifier({
+        transform: function() {
+            return Transform.translate(0, this.timelineViewPos.get(), 1);
+        }.bind(this)
+    });
+    this._add(this.timelineMod).add(AppView.timelineView);
+}
+
+function _setListeners() {
+    AppView.headerView.on('menuToggle', this.toggleMenu.bind(this));
+    AppView.headerView.on('timelineToggle', this.toggleTimeline.bind(this));
+}
+
 AppView.prototype.toggleMenu = function() {
     if(this.menuToggle) {
-        this.slideLeft();
+        this.menuSlideLeft();
     } else {
-        this.slideRight();
+        this.menuSlideRight();
     }
     this.menuToggle = !this.menuToggle;
 };
 
-
-AppView.prototype.slideLeft = function() {
+AppView.prototype.menuSlideLeft = function() {
     this.pageViewPos.set(0, this.options.transition, function() {
         this.menuToggle = false;
     }.bind(this));
 };
 
-AppView.prototype.slideRight = function() {
-    this.pageViewPos.set(this.options.openPosition, this.options.transition, function() {
+AppView.prototype.menuSlideRight = function() {
+    this.pageViewPos.set(this.options.menuOpenPosition, this.options.menuTransition, function() {
         this.menuToggle = true;
     }.bind(this));
+};
+
+AppView.prototype.timelineSlideDown = function() {
+    this.timelineViewPos.set(window.innerHeight, this.options.menuTransition, function() {
+        this.toggleTimeline = false;
+    }.bind(this));
+};
+
+AppView.prototype.timelineSlideUp = function() {
+    this.timelineViewPos.set(0, this.options.menuTransition, function() {
+        this.toggleTimeline = true;
+    }.bind(this));
+};
+
+AppView.prototype.toggleTimeline = function() {
+    if(this.timelineToggle) {
+        this.timelineSlideUp();
+    } else {
+        this.timelineSlideDown();
+    }
+    this.timelineToggle = !this.timelineToggle;
 };
 
 createFamousView = function(templateName) {
