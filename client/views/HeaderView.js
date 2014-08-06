@@ -9,6 +9,8 @@ HeaderView = function(options) {
     View.apply(this, arguments);
 
     _createHeader.call(this);
+
+    _setListeners.call(this);
 }
 
 HeaderView.prototype = Object.create(View.prototype);
@@ -74,7 +76,7 @@ function _createHeader() {
     });
 
     //question icon
-    var questionIconSurf = new Surface({
+    this.questionIconSurf = new Surface({
         size: [40,40],
         content: 'Menu',
         properties: {
@@ -91,5 +93,13 @@ function _createHeader() {
     this._add(this.filterIconMod).add(this.filterIconSurf);
     this._add(this.xIconMod).add(this.xIconSurf);
     this._add(titleMod).add(titleSurf);
-    this._add(questionIconMod).add(questionIconSurf);
+    this._add(questionIconMod).add(this.questionIconSurf);
+}
+
+function _setListeners() {
+    this.questionIconSurf.on('click', function() {
+        this._eventOutput.emit('menuToggle');
+    }.bind(this));
+
+    //this.bodySurface.pipe(this._eventOutput);
 }
