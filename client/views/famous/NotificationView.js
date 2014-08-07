@@ -3,24 +3,28 @@ var Surface = require('famous/core/Surface');
 var Transform = require('famous/core/Transform');
 var StateModifier = require('famous/modifiers/StateModifier');
 
-TimelineView = function () {
+NotificationView = function () {
     View.apply(this, arguments);
-
+    
     _createBody.call(this);
 }
 
-TimelineView.prototype = Object.create(View.prototype);
-TimelineView.prototype.constructor = TimelineView;
+NotificationView.prototype = Object.create(View.prototype);
+NotificationView.prototype.constructor = NotificationView;
 
-TimelineView.DEFAULT_OPTIONS = {};
+NotificationView.DEFAULT_OPTIONS = {};
 
 function _createBody() {
     var surface = new Surface({
         size: [undefined, undefined],
+        content: 'Notificações',
         properties: {
             color: 'white',
-            backgroundColor: 'rgb(194, 0, 194)'
+            backgroundColor: 'purple'
         }
     });
+    
     this._add(surface);
 }
+
+

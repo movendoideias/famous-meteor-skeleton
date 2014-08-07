@@ -5,19 +5,48 @@ Router.configure({
 
 Router.map(function() {  
   
-    this.route('view1', {
+    var timelineRoute = 'timeline';
+    this.route(timelineRoute, {
         template: 'blank',
         path: '/',
         action: function() {
-            AppView.goTo('view1');
+            AppView.goTo(timelineRoute);
+        }
+    });
+    
+    var eventRoute = 'events';
+    this.route(eventRoute, {
+        template: 'blank',
+        path: eventRoute,
+        action: function() {
+            AppView.goTo(eventRoute);
+        }
+    });
+    
+    
+    this.route('myevents', {
+        template: 'blank',
+        path: '/events',
+        action: function() {
+            AppView.goTo('events');
         }
     });
   
-    this.route('view2', {
+    var friendsRoute = 'friends';
+    this.route(friendsRoute, {
         template: 'blank',
-        path: '/view2',
+        path: friendsRoute,
         action: function() {
-            AppView.goTo('view2');
+            AppView.goTo(friendsRoute);
+        }
+    });
+    
+    var settingsRoute = 'settings';
+    this.route(settingsRoute, {
+        template: 'blank',
+        path: settingsRoute,
+        action: function() {
+            AppView.goTo(settingsRoute);
         }
     });
 

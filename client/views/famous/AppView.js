@@ -11,7 +11,7 @@ AppView = function() {
     this.menuToggle = false;
     this.timelineToggle = false;
     this.notificationToggle = false;
-    
+
     this.pageViewPos = new Transitionable(0);
     this.pageViewHorizontalPos = new Transitionable(0);
     this.timelineViewPos = new Transitionable(window.innerHeight);
@@ -32,24 +32,7 @@ AppView.init = function() {
     var mainContext = Engine.createContext();
     appView = new AppView();
 
-    mainContext.add(this.pageModifier).add(appView);
-};
-
-var views = [];
-AppView.goTo = function(templateName) {
-
-    var view = _.findWhere(views, { name: templateName });
-    if ( !view ) {
-
-        view = {
-            name: templateName,
-            view: createFamousView(templateName)
-        };
-
-        views.push(view);
-    }
-
-    AppView.pageView.goTo(view.view);
+    mainContext.add(appView);
 };
 
 AppView.prototype = Object.create(View.prototype);
@@ -87,7 +70,11 @@ function _createHeaderView() {
 }
 
 function _createMenuView() {
-    this.menuView = new MenuView();
+    this.menuView = new MenuView({
+        size: [100, 100],
+        origin: [1, 0]
+    });
+
     this._add(this.menuView);
 }
 
@@ -119,20 +106,20 @@ function _setListeners() {
 
 AppView.prototype.toggleMenu = function() {
     if(this.menuToggle) {
-        this.menuSlideLeft();
-    } else {
         this.menuSlideRight();
+    } else {
+        this.menuSlideLeft();
     }
     this.menuToggle = !this.menuToggle;
 };
 
-AppView.prototype.menuSlideLeft = function() {
+AppView.prototype.menuSlideRight = function() {
     this.pageViewPos.set(0, this.options.menuTransition, function() {
         this.menuToggle = false;
     }.bind(this));
 };
 
-AppView.prototype.menuSlideRight = function() {
+AppView.prototype.menuSlideLeft = function() {
     this.pageViewPos.set(this.options.menuOpenPosition, this.options.menuTransition, function() {
         this.menuToggle = true;
     }.bind(this));
@@ -182,6 +169,27 @@ AppView.prototype.toggleNotification = function() {
     this.notificationToggle = !this.notificationToggle;
 };
 
+var views = [];
+AppView.goTo = function(templateName) {
+
+    var view = _.findWhere(views, { name: templateName });
+    if ( !view ) {
+
+        view = {
+            name: templateName,
+            view: createFamousView(templateName)
+        };
+
+        views.push(view);
+    }
+
+    if(!appView.menuToggle) {
+        appView.menuSlideRight();
+    }
+
+    AppView.pageView.goTo(view.view);
+};
+
 createFamousView = function(templateName) {
     var view = new View();
 
@@ -194,7 +202,10 @@ createFamousView = function(templateName) {
     var surface = new Surface({
         size: [undefined, undefined],
         content: template,
-        classes: [templateName]
+        classes: [templateName],
+        properties : {
+            backgroundColor: 'gray'
+        }
     });
 
     view.add(centerModifier).add(surface);
