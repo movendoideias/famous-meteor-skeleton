@@ -21,26 +21,14 @@ HeaderView.DEFAULT_OPTIONS = {
 };
 
 function _createHeader() {
-    this.menuSurf = new Surface({
-        size: [undefined, 44],
-        properties: {
-            backgroundColor: '#292929'
-        }
-    });
-    this.menuMod = new Modifier({});
-
+    
     //filter icon
-    this.filterViewSelected = false;
-    this.filterIconSurf = new Surface({
-        size: [35,35],
-        content: 'Voltar',
+    this.filterIconSurf = new ImageSurface({
+        size: [44, 44],
+        content: 'http://cdn.flaticon.com/png/256/34148.png',
         properties: {
             padding: '5px',
-            backgroundColor: '#FA5C4F'
         }
-    });
-    this.filterIconMod = new Modifier({
-        opacity: 1
     });
 
     //title
@@ -48,7 +36,6 @@ function _createHeader() {
         size: [140, 35],
         content: 'Título',
         properties: {
-            fontFamily: 'Arial Narrow',
             fontSize: '24px',
             color: 'white',
             textAlign: 'center',
@@ -61,20 +48,18 @@ function _createHeader() {
     });
 
     //question icon
-    this.questionIconSurf = new Surface({
-        size: [40,40],
-        content: 'Menu',
+    this.questionIconSurf = new ImageSurface({
+        size: [40, 44],
+        content: 'http://cdn.flaticon.com/png/256/17797.png',
         properties: {
-            paddingTop: '2px',
-            paddingRight: '50px',
-            backgroundColor: '#FA5C4F'
+            paddingTop: '5px',
+            height: 'auto'
         }
     });
     var questionIconMod = new Modifier({
         origin: [.99, 0]
     });
 
-    this._add(this.menuMod).add(this.menuSurf);
     this._add(this.filterIconMod).add(this.filterIconSurf);
     this._add(titleMod).add(this.titleSurf);
     this._add(questionIconMod).add(this.questionIconSurf);
@@ -89,7 +74,7 @@ function _setListeners() {
         this._eventOutput.emit('timelineToggle');
     }.bind(this));
 
-    this.menuSurf.on('click', function() {
+    this.titleSurf.on('click', function() {
         this._eventOutput.emit('notificationToggle');
     }.bind(this));
 

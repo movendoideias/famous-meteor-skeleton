@@ -1,3 +1,3 @@
 Meteor.startup(function() {
-    AppView.init();
+    appView = new AppView();
 });

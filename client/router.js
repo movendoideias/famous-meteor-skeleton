@@ -10,7 +10,7 @@ Router.map(function() {
         template: 'blank',
         path: '/',
         action: function() {
-            AppView.goTo(timelineRoute);
+            appView.goTo(timelineRoute);
         }
     });
     
@@ -19,7 +19,7 @@ Router.map(function() {
         template: 'blank',
         path: eventRoute,
         action: function() {
-            AppView.goTo(eventRoute);
+            appView.goTo(eventRoute);
         }
     });
     
@@ -28,7 +28,7 @@ Router.map(function() {
         template: 'blank',
         path: '/events',
         action: function() {
-            AppView.goTo('events');
+            appView.goTo('events');
         }
     });
   
@@ -37,7 +37,7 @@ Router.map(function() {
         template: 'blank',
         path: friendsRoute,
         action: function() {
-            AppView.goTo(friendsRoute);
+            appView.goTo(friendsRoute);
         }
     });
     
@@ -46,7 +46,7 @@ Router.map(function() {
         template: 'blank',
         path: settingsRoute,
         action: function() {
-            AppView.goTo(settingsRoute);
+            appView.goTo(settingsRoute);
         }
     });
 

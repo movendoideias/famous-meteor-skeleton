@@ -6,6 +6,7 @@ var StateModifier = require('famous/modifiers/StateModifier');
 MenuView = function () {
     View.apply(this, arguments);
 
+    _createBody.call(this);
     _createMenuItems.call(this);
 }
 
@@ -14,14 +15,22 @@ MenuView.prototype.constructor = MenuView;
 
 MenuView.DEFAULT_OPTIONS = {};
 
-function _createMenuItems() {
-    this.surface = new Surface({
-        size: [100, 100],
+function _createBody() {
+    var surface = new Surface({
         properties: {
             color: 'white',
-            backgroundColor: 'brown'
+            backgroundColor: 'purple'
         }
     });
+    var sizeModifier = new StateModifier({
+        size: [276, undefined],
+        origin: [1, 0]
+    });
+    
+    this._add(sizeModifier).add(surface);
+}
+
+function _createMenuItems() {
     
     var view = new View();
     var sizeModifier = new StateModifier({

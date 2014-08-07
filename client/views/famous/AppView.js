@@ -24,15 +24,12 @@ AppView = function() {
     _createNotificationView.call(this);
 
     _setListeners.call(this);
-};
-
-AppView.init = function() {
+    
     var Engine = famous.core.Engine;
 
     var mainContext = Engine.createContext();
-    appView = new AppView();
 
-    mainContext.add(appView);
+    mainContext.add(this);
 };
 
 AppView.prototype = Object.create(View.prototype);
@@ -170,7 +167,7 @@ AppView.prototype.toggleNotification = function() {
 };
 
 var views = [];
-AppView.goTo = function(templateName) {
+AppView.prototype.goTo = function(templateName) {
 
     var view = _.findWhere(views, { name: templateName });
     if ( !view ) {
@@ -183,8 +180,8 @@ AppView.goTo = function(templateName) {
         views.push(view);
     }
 
-    if(!appView.menuToggle) {
-        appView.menuSlideRight();
+    if(this.menuToggle) {
+        this.menuSlideRight();
     }
 
     AppView.pageView.goTo(view.view);

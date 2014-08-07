@@ -24,7 +24,7 @@ function _createBody() {
         content: "<a href='/" + this.options.url + "'>" + this.options.title + "</a>",
         properties: {
             color: 'white',
-            backgroundColor: 'green'
+            fontSize: '24px'
         }
     });
     this._add(surface);
