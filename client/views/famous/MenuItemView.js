@@ -5,7 +5,7 @@ var StateModifier = require('famous/modifiers/StateModifier');
 
 MenuItemView = function () {
     View.apply(this, arguments);
-    
+
     _createBody.call(this);
 }
 
@@ -16,17 +16,31 @@ MenuItemView.DEFAULT_OPTIONS = {
     iconUrl: '',
     title: 'Menu Sem Nome',
     url: '',
+    fontSize: 26,
+    width: 276,
+    height: 55,
+    angle: -0.2,
+    iconSize: 32,
 };
 
 function _createBody() {
     var surface = new Surface({
-        size: [undefined, undefined],
+        size: [this.options.width, this.options.height],
         content: "<a href='/" + this.options.url + "'>" + this.options.title + "</a>",
         properties: {
             fontSize: '24px'
         }
     });
-    this._add(surface);
+
+    var rotateModifier = new StateModifier({
+        transform: Transform.rotateZ(this.options.angle)
+    });
+
+    var skewModifier = new StateModifier({
+        transform: Transform.skew(0, 0, this.options.angle)
+    });
+
+    this._add(rotateModifier).add(skewModifier).add(surface);
 }
 
 

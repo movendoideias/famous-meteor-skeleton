@@ -25,7 +25,6 @@ AppView = function() {
     _createNotificationView.call(this);
 
     _setListeners.call(this);
-    _handleSwipe.call(this);
 
     var Engine = famous.core.Engine;
 
@@ -52,7 +51,7 @@ function _createPageView() {
     AppView.pageView = new PageView();
     this.pageModifier = new Modifier({
         transform: function() {
-            return Transform.translate(this.pageViewPos.get(), this.pageViewHorizontalPos.get(), 1);
+            return Transform.translate(this.pageViewPos.get(), this.pageViewHorizontalPos.get(), 2);
         }.bind(this)
     });
     this._add(this.pageModifier).add(AppView.pageView);
@@ -81,7 +80,7 @@ function _createTimelineView() {
     AppView.timelineView = new TimelineView();
     this.timelineMod = new Modifier({
         transform: function() {
-            return Transform.translate(0, this.timelineViewPos.get(), 2);
+            return Transform.translate(0, this.timelineViewPos.get(), 3);
         }.bind(this)
     });
     this._add(this.timelineMod).add(AppView.timelineView);
@@ -121,6 +120,7 @@ AppView.prototype.menuSlideRight = function() {
 AppView.prototype.menuSlideLeft = function() {
     this.pageViewPos.set(this.options.menuOpenPosition, this.options.menuTransition, function() {
         this.menuToggle = true;
+        this.menuView.animateStrips();
     }.bind(this));
 };
 
