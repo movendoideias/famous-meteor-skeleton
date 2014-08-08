@@ -4,6 +4,7 @@ var Transform = famous.core.Transform;
 var Modifier = famous.core.Modifier;
 var StateModifier = famous.modifiers.StateModifier;
 var Transitionable  = famous.transitions.Transitionable;
+var GenericSync = famous.inputs.GenericSync;
 
 AppView = function() {
     View.apply(this, arguments);
@@ -24,7 +25,8 @@ AppView = function() {
     _createNotificationView.call(this);
 
     _setListeners.call(this);
-    
+    _handleSwipe.call(this);
+
     var Engine = famous.core.Engine;
 
     var mainContext = Engine.createContext();
@@ -201,7 +203,8 @@ createFamousView = function(templateName) {
         content: template,
         classes: [templateName],
         properties : {
-            backgroundColor: 'gray'
+            backgroundColor: 'white',
+            paddingTop: '40px'
         }
     });
 

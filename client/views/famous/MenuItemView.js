@@ -23,7 +23,6 @@ function _createBody() {
         size: [undefined, undefined],
         content: "<a href='/" + this.options.url + "'>" + this.options.title + "</a>",
         properties: {
-            color: 'white',
             fontSize: '24px'
         }
     });

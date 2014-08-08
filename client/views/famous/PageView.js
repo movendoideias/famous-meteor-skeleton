@@ -4,9 +4,11 @@ var Transform = famous.core.Transform;
 var StateModifier = famous.modifiers.StateModifier;
 var HeaderFooter = famous.views.HeaderFooterLayout;
 var RenderController = famous.views.RenderController;
+var ImageSurface = famous.surfaces.ImageSurface;
 
 PageView = function() {
     View.apply(this, arguments);
+    
     this._renderController = new RenderController();
     this._defaultTransition = "SlideLeft";
     this.transitions = {};
@@ -16,6 +18,8 @@ PageView = function() {
     }
 
     _createBody.call(this);
+
+    _setListeners.call(this);
 };
 
 PageView.prototype = Object.create(View.prototype);
@@ -40,11 +44,15 @@ PageView.prototype.goTo = function(view, transition) {
     this._renderController.outOpacityFrom(function() { return 1; });
 
     this._renderController.show(view);
+    
 };
 PageView.DEFAULT_OPTIONS = { };
 
 function _createBody() {  
     this.add(this._renderController);
+}
+
+function _setListeners() {
 }
 
 PageView.prototype._defaultTransitions = [

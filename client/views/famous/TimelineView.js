@@ -18,10 +18,7 @@ function _createBody() {
     var surface = new Surface({
         size: [undefined, undefined],
         content: 'Timeline',
-        properties: {
-            color: 'white',
-            backgroundColor: 'yellow'
-        }
+        classes: ['timeline-wrapper']
     });
     this._add(surface);
 }

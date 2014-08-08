@@ -17,10 +17,7 @@ MenuView.DEFAULT_OPTIONS = {};
 
 function _createBody() {
     var surface = new Surface({
-        properties: {
-            color: 'white',
-            backgroundColor: 'purple'
-        }
+        classes: ['menu-wrapper']
     });
     var sizeModifier = new StateModifier({
         size: [276, undefined],

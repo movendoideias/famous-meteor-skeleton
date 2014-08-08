@@ -18,10 +18,7 @@ function _createBody() {
     var surface = new Surface({
         size: [undefined, undefined],
         content: 'Notificações',
-        properties: {
-            color: 'white',
-            backgroundColor: 'purple'
-        }
+        classes: ['notification-wrapper']
     });
     
     this._add(surface);
