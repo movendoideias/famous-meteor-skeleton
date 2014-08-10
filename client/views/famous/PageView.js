@@ -5,6 +5,7 @@ var StateModifier = famous.modifiers.StateModifier;
 var HeaderFooter = famous.views.HeaderFooterLayout;
 var RenderController = famous.views.RenderController;
 var ImageSurface = famous.surfaces.ImageSurface;
+var GenericSync = famous.inputs.GenericSync;
 
 PageView = function() {
     View.apply(this, arguments);
@@ -44,7 +45,6 @@ PageView.prototype.goTo = function(view, transition) {
     this._renderController.outOpacityFrom(function() { return 1; });
 
     this._renderController.show(view);
-    
 };
 PageView.DEFAULT_OPTIONS = { };
 

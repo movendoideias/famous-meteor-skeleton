@@ -4,6 +4,7 @@ var Transform = famous.core.Transform;
 var Modifier = famous.core.Modifier;
 var ImageSurface = famous.surfaces.ImageSurface;
 var StateModifier = famous.modifiers.StateModifier;
+var GenericSync = famous.inputs.GenericSync;
 
 HeaderView = function(options) {
     View.apply(this, arguments);
@@ -18,6 +19,28 @@ HeaderView.prototype.constructor = HeaderView;
 
 HeaderView.DEFAULT_OPTIONS = {
     title: 'Título'
+};
+
+HeaderView.prototype.handleSwipe = function(options) {
+    GenericSync.register({'mouse': famous.inputs.MouseSync, 'touch': famous.inputs.TouchSync });
+
+    var sync = new GenericSync(
+        ['mouse', 'touch'],
+        {direction : GenericSync.DIRECTION_X}
+    );
+
+    //this.subscribe(this.titleSurface);
+    sync.subscribe(this.titleSurface);
+    
+    options = options || {};
+    if(options.onUpdate) {
+      sync.on('update', options.onUpdate);
+    }
+  
+    if(options.onEnd) {
+      sync.on('update', options.onEnd);
+    }
+    
 };
 
 function _createHeader() {
@@ -56,9 +79,9 @@ function _createHeader() {
         origin: [.99, 0]
     });
 
-    this._add(this.searchIconSurf);
-    this._add(titleMod).add(this.titleSurface);
-    this._add(profileIconMod).add(this.profileIconSurface);
+    this.add(this.searchIconSurf);
+    this.add(titleMod).add(this.titleSurface);
+    this.add(profileIconMod).add(this.profileIconSurface);
 }
 
 function _setListeners() {
