@@ -196,13 +196,28 @@ function _handleSwipe() {
 
     this.headerView.handleSwipe({
       
-      onUpdate: function(data) {
+      onNotificationUpdate: function(data) {
+        var currentPosition = this.pageViewHorizontalPos.get();
+        var newPos = currentPosition + data.delta;
+          
+        this.pageViewHorizontalPos.set(Math.max(0, newPos));
+        
+      }.bind(this),
+        
+      onNotificationEnd: function(data) {
+      }.bind(this),
+        
+      onMenuUpdate: function(data) {
         var currentPosition = this.pageViewPos.get();
-        this.pageViewPos.set(Math.max(0, currentPosition + data.delta))
+        var newPos = currentPosition + data.delta;
+          
+        if(newPos < 0) {
+            this.pageViewPos.set(Math.max(-260, newPos));
+        }
       }.bind(this),
       
-      onEnd: function(data) {
-      }
+      onMenuEnd: function(data) {
+      }.bind(this)
       
     });
   

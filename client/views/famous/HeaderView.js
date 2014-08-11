@@ -8,7 +8,7 @@ var GenericSync = famous.inputs.GenericSync;
 
 HeaderView = function(options) {
     View.apply(this, arguments);
-
+    
     _createHeader.call(this);
 
     _setListeners.call(this);
@@ -24,26 +24,46 @@ HeaderView.DEFAULT_OPTIONS = {
 HeaderView.prototype.handleSwipe = function(options) {
     GenericSync.register({'mouse': famous.inputs.MouseSync, 'touch': famous.inputs.TouchSync });
 
-    var sync = new GenericSync(
+    var syncMenu = new GenericSync(
         ['mouse', 'touch'],
-        {direction : GenericSync.DIRECTION_X}
+        { direction : GenericSync.DIRECTION_X }
+    );
+
+    var syncNotifications = new GenericSync(
+        ['mouse', 'touch'],
+        { direction : GenericSync.DIRECTION_Y }
     );
 
     //this.subscribe(this.titleSurface);
-    sync.subscribe(this.titleSurface);
-    
+    syncMenu.subscribe(this.backgroundSurface);
+    syncNotifications.subscribe(this.backgroundSurface);
+
     options = options || {};
-    if(options.onUpdate) {
-      sync.on('update', options.onUpdate);
-    }
-  
-    if(options.onEnd) {
-      sync.on('update', options.onEnd);
+    if(options.onMenuUpdate) {
+        syncMenu.on('update', options.onMenuUpdate);
     }
     
+    if(options.onMenuEnd) {
+        syncMenu.on('update', options.onMenuEnd);
+    }
+    
+    if(options.onNotificationEnd) {
+        syncNotifications.on('update', options.onNotificationUpdate);
+    }
+
+    if(options.onNotificationEnd) {
+        syncNotifications.on('update', options.onNotificationEnd);
+    }
+
 };
 
 function _createHeader() {
+    this.backgroundSurface = new Surface({
+        size: [undefined, 44],
+        properties: {
+            backgroundColor: 'gray',
+        }
+    });
     
     this.searchIconSurf = new ImageSurface({
         size: [44, 44],
@@ -82,6 +102,7 @@ function _createHeader() {
     this.add(this.searchIconSurf);
     this.add(titleMod).add(this.titleSurface);
     this.add(profileIconMod).add(this.profileIconSurface);
+    this.add(this.backgroundSurface);
 }
 
 function _setListeners() {
