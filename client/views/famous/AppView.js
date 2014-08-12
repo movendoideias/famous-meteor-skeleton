@@ -17,6 +17,7 @@ AppView = function() {
     this.pageViewHorizontalPos = new Transitionable(0);
     this.timelineViewPos = new Transitionable(window.innerHeight);
     this.notificationViewPos = new Transitionable(-window.innerHeight);
+    this.menuViewPos = new Transitionable(0);
 
     _createHeaderView.call(this);
     _createPageView.call(this);
@@ -24,7 +25,7 @@ AppView = function() {
     _createMenuView.call(this);
     _createNotificationView.call(this);
     _setListeners.call(this);
-  
+
     _handleSwipe.call(this);
 
     var Engine = famous.core.Engine;
@@ -44,7 +45,7 @@ AppView.DEFAULT_OPTIONS = {
         curve: 'easeOut'
     },
     timelineOpenPosition: -276,
-    posThreshold: 138,
+    posThreshold: window.innerHeight / 2,
     velThreshold: 0.75
 };
 
@@ -53,7 +54,7 @@ function _createPageView() {
     this.pageView = new PageView();
     this.pageModifier = new Modifier({
         transform: function() {
-            return Transform.translate(self.pageViewPos.get(), self.pageViewHorizontalPos.get(), 2);
+            return Transform.translate(self.pageViewPos.get(), self.pageViewHorizontalPos.get(), 3);
         }.bind(self)
     });
     this._add(this.pageModifier).add(this.pageView);
@@ -64,7 +65,7 @@ function _createHeaderView() {
     this.headerView = new HeaderView();
     this.headerMod = new Modifier({
         transform: function() {
-            return Transform.translate(self.pageViewPos.get(), self.pageViewHorizontalPos.get(), 3);
+            return Transform.translate(self.pageViewPos.get(), self.pageViewHorizontalPos.get(), 4);
         }.bind(self)
     });
     this._add(this.headerMod).add(this.headerView);
@@ -72,18 +73,23 @@ function _createHeaderView() {
 
 function _createMenuView() {
     this.menuView = new MenuView({
-        size: [100, 100],
         origin: [1, 0]
     });
+    
+    this.menuMod = new Modifier({
+        transform: function() {
+            return Transform.translate(this.menuViewPos.get(), 0, 2);
+        }.bind(this)
+    });
 
-    this._add(this.menuView);
+    this._add(this.menuMod).add(this.menuView);
 }
 
 function _createTimelineView() {
     this.timelineView = new TimelineView();
     this.timelineMod = new Modifier({
         transform: function() {
-            return Transform.translate(0, this.timelineViewPos.get(), 3);
+            return Transform.translate(0, this.timelineViewPos.get(), 4);
         }.bind(this)
     });
     this._add(this.timelineMod).add(this.timelineView);
@@ -102,7 +108,7 @@ function _createNotificationView() {
 function _setListeners() {
     this.headerView.on('menuToggle', this.toggleMenu.bind(this));
     this.headerView.on('timelineToggle', this.toggleTimeline.bind(this));
-    this.headerView.on('notificationToggle', this.toggleNotification.bind(this));
+    //this.headerView.on('notificationToggle', this.toggleNotification.bind(this));
 }
 
 AppView.prototype.toggleMenu = function() {
@@ -195,32 +201,35 @@ AppView.prototype.goTo = function(templateName) {
 function _handleSwipe() {
 
     this.headerView.handleSwipe({
-      
-      onNotificationUpdate: function(data) {
-        var currentPosition = this.pageViewHorizontalPos.get();
-        var newPos = currentPosition + data.delta;
-          
-        this.pageViewHorizontalPos.set(Math.max(0, newPos));
-        
-      }.bind(this),
-        
-      onNotificationEnd: function(data) {
-      }.bind(this),
-        
-      onMenuUpdate: function(data) {
-        var currentPosition = this.pageViewPos.get();
-        var newPos = currentPosition + data.delta;
-          
-        if(newPos < 0) {
-            this.pageViewPos.set(Math.max(-260, newPos));
-        }
-      }.bind(this),
-      
-      onMenuEnd: function(data) {
-      }.bind(this)
-      
+
+        onNotificationUpdate: function(data) {
+            var currentPosition = this.pageViewHorizontalPos.get();
+
+            this.pageViewHorizontalPos.set(Math.max(0, currentPosition + data.delta));
+
+        }.bind(this),
+
+        onNotificationEnd: function(data) {
+            var velocity = data.velocity;
+            var position = this.pageViewHorizontalPos.get();
+
+            if(position > this.options.posThreshold) {
+                if(velocity < -this.options.velThreshold) {
+                    this.notificationSlideUp();
+                } else {
+                    this.notificationSlideDown();
+                }
+            } else {
+                if(velocity > this.options.velThreshold) {
+                    this.notificationSlideDown();
+                } else {
+                    this.notificationSlideUp();
+                }
+            }
+        }.bind(this),
+
     });
-  
+
 }
 
 createFamousView = function(templateName) {

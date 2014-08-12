@@ -42,7 +42,6 @@ function _createBody() {
 }
 
 function _createMenuItems() {
-    
     var view = new View();
     var sizeModifier = new StateModifier({
         size: [276, undefined],

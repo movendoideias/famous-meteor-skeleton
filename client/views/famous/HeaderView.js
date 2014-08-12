@@ -24,28 +24,17 @@ HeaderView.DEFAULT_OPTIONS = {
 HeaderView.prototype.handleSwipe = function(options) {
     GenericSync.register({'mouse': famous.inputs.MouseSync, 'touch': famous.inputs.TouchSync });
 
-    var syncMenu = new GenericSync(
-        ['mouse', 'touch'],
-        { direction : GenericSync.DIRECTION_X }
-    );
-
     var syncNotifications = new GenericSync(
         ['mouse', 'touch'],
         { direction : GenericSync.DIRECTION_Y }
     );
 
     //this.subscribe(this.titleSurface);
-    syncMenu.subscribe(this.backgroundSurface);
     syncNotifications.subscribe(this.backgroundSurface);
 
     options = options || {};
-    if(options.onMenuUpdate) {
-        syncMenu.on('update', options.onMenuUpdate);
-    }
     
-    if(options.onMenuEnd) {
-        syncMenu.on('update', options.onMenuEnd);
-    }
+    this.pipe(syncNotifications);
     
     if(options.onNotificationEnd) {
         syncNotifications.on('update', options.onNotificationUpdate);

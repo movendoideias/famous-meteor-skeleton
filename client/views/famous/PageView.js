@@ -9,7 +9,7 @@ var GenericSync = famous.inputs.GenericSync;
 
 PageView = function() {
     View.apply(this, arguments);
-    
+
     this._renderController = new RenderController();
     this._defaultTransition = "SlideLeft";
     this.transitions = {};
@@ -49,6 +49,15 @@ PageView.prototype.goTo = function(view, transition) {
 PageView.DEFAULT_OPTIONS = { };
 
 function _createBody() {  
+    var backing = new Surface({
+        properties: {
+            backgroundColor: 'black',
+            boxShadow: '0 0 20px rgba(0,0,0,0.5)'
+        }
+    });
+
+    this.add(backing);
+
     this.add(this._renderController);
 }
 
