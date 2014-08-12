@@ -72,6 +72,20 @@ function _createHeader() {
     var titleMod = new Modifier({
         origin: [0.5, 0]
     });
+    
+    this.notificationSurface = new ImageSurface({
+        size: [40, 44],
+        content: 'http://cdn.flaticon.com/png/256/54810.png',
+        properties: {
+            paddingTop: '5px',
+            height: 'auto'
+        }
+    });
+    var notificationModifier = new StateModifier({
+        origin: [1, 0],
+        transform: Transform.translate(-40, 0, 0)
+    });
+    
 
     this.profileIconSurface = new ImageSurface({
         size: [40, 44],
@@ -82,12 +96,13 @@ function _createHeader() {
         }
     });
     var profileIconMod = new Modifier({
-        origin: [.99, 0]
+        origin: [1, 0]
     });
 
     this.add(this.searchIconSurf);
     this.add(titleMod).add(this.titleSurface);
     this.add(profileIconMod).add(this.profileIconSurface);
+    this.add(notificationModifier).add(this.notificationSurface);
     this.add(this.backgroundSurface);
 }
 
@@ -100,7 +115,7 @@ function _setListeners() {
         this._eventOutput.emit('timelineToggle');
     }.bind(this));
 
-    this.titleSurface.on('click', function() {
-        this._eventOutput.emit('notificationToggle');
+    this.notificationSurface.on('click', function() {
+        //this._eventOutput.emit('notificationToggle');
     }.bind(this));
 }

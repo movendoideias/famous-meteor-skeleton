@@ -9,9 +9,9 @@ var GenericSync = famous.inputs.GenericSync;
 AppView = function() {
     View.apply(this, arguments);
 
-    this.menuToggle = false;
-    this.timelineToggle = false;
-    this.notificationToggle = false;
+    this.menuOpen = false;
+    this.timelineOpen = false;
+    this.notificationOpen = false;
 
     this.pageViewPos = new Transitionable(0);
     this.pageViewHorizontalPos = new Transitionable(0);
@@ -109,56 +109,68 @@ function _createNotificationView() {
 function _setListeners() {
     this.headerView.on('menuToggle', this.toggleMenu.bind(this));
     this.headerView.on('timelineToggle', this.toggleTimeline.bind(this));
-    //this.headerView.on('notificationToggle', this.toggleNotification.bind(this));
+    this.headerView.on('notificationToggle', this.toggleNotification.bind(this));
 }
 
 AppView.prototype.toggleMenu = function() {
-    if(this.menuToggle) {
+    
+    if(this.notificationOpen)
+        return;
+    
+    if(this.menuOpen) {
         this.menuSlideRight();
     } else {
         this.menuSlideLeft();
     }
-    this.menuToggle = !this.menuToggle;
+    this.menuOpen = !this.menuOpen;
 };
 
 AppView.prototype.menuSlideRight = function() {
     this.menuViewPos.set(-this.options.menuOpenPosition, this.options.menuTransition);
     this.pageViewPos.set(0, this.options.menuTransition, function() {
-        this.menuToggle = false;
+        this.menuOpen = false;
+        //callback();
     }.bind(this));
 };
 
 AppView.prototype.menuSlideLeft = function() {
     this.menuViewPos.set(0, this.options.menuTransition);
     this.pageViewPos.set(this.options.menuOpenPosition, this.options.menuTransition, function() {
-        this.menuToggle = true;
+        this.menuOpen = true;
         //this.menuView.animateStrips();
     }.bind(this));
 };
 
+AppView.prototype.toggleTimeline = function() {
+    
+    if(this.notificationOpen)
+        return;
+    
+    if(this.timelineOpen) {
+        this.timelineSlideDown();
+    } else {
+        this.timelineSlideUp(); 
+    }
+    this.timelineOpen = !this.timelineOpen;
+};
+
+
 AppView.prototype.timelineSlideDown = function() {
     this.timelineViewPos.set(window.innerHeight, this.options.menuTransition, function() {
-        this.toggleTimeline = false;
+        this.timelineOpen = false;
     }.bind(this));
 };
 
 AppView.prototype.timelineSlideUp = function() {
     this.timelineViewPos.set(0, this.options.menuTransition, function() {
-        this.toggleTimeline = true;
+        this.timelineOpen = true;
     }.bind(this));
 };
 
-AppView.prototype.toggleTimeline = function() {
-    if(this.timelineToggle) {
-        this.timelineSlideUp();
-    } else {
-        this.timelineSlideDown();
-    }
-    this.timelineToggle = !this.timelineToggle;
-};
 
 AppView.prototype.notificationSlideDown = function() {
     this.pageViewHorizontalPos.set(window.innerHeight - 80, this.options.menuTransition);
+    this.notificationOpen = true;
     /*this.notificationViewPos.set(-80, this.options.menuTransition, function() {
         this.toggleNotification = false;
     }.bind(this));*/
@@ -166,6 +178,7 @@ AppView.prototype.notificationSlideDown = function() {
 
 AppView.prototype.notificationSlideUp = function() {
     this.pageViewHorizontalPos.set(0, this.options.menuTransition);
+    this.notificationOpen = false;
     /*
     this.notificationViewPos.set(-window.innerHeight, this.options.menuTransition, function() {
         this.toggleNotification = true;
@@ -173,17 +186,21 @@ AppView.prototype.notificationSlideUp = function() {
 };
 
 AppView.prototype.toggleNotification = function() {
-    if(this.notificationToggle) {
-        this.notificationSlideDown();
-    } else {
+    
+
+    
+    if(this.notificationOpen) {
         this.notificationSlideUp();
+    } else {
+        this.notificationSlideDown();
     }
-    this.notificationToggle = !this.notificationToggle;
+    this.notificationOpen = !this.notificationOpen;
 };
 
 var views = [];
 AppView.prototype.goTo = function(templateName) {
 
+    var self = this;
     var view = _.findWhere(views, { name: templateName });
     if ( !view ) {
 
@@ -194,12 +211,18 @@ AppView.prototype.goTo = function(templateName) {
 
         views.push(view);
     }
-
-    if(this.menuToggle) {
+ 
+    if(this.menuOpen) {
         this.menuSlideRight();
+        self.pageView.goTo(view.view);
+        /*function () {
+            self.pageView.goTo(view.view);        
+        }*/
     }
-
-    this.pageView.goTo(view.view);
+    else {
+        this.pageView.goTo(view.view);        
+    }
+    
 };
 
 function _handleSwipe() {
@@ -207,6 +230,9 @@ function _handleSwipe() {
     this.headerView.handleSwipe({
 
         onNotificationUpdate: function(data) {
+            if(this.menuOpen)
+                return;
+            
             var currentPosition = this.pageViewHorizontalPos.get();
             var currentNotificationPos = this.notificationViewPos.get();
 
@@ -216,7 +242,7 @@ function _handleSwipe() {
         onNotificationEnd: function(data) {
             var velocity = data.velocity;
             var position = this.pageViewHorizontalPos.get();
-
+            
             if(position > this.options.posThreshold) {
                 if(velocity < -this.options.velThreshold) {
                     this.notificationSlideUp();
