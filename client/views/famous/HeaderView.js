@@ -36,12 +36,12 @@ HeaderView.prototype.handleSwipe = function(options) {
     
     this.pipe(syncNotifications);
     
-    if(options.onNotificationEnd) {
+    if(options.onNotificationUpdate) {
         syncNotifications.on('update', options.onNotificationUpdate);
     }
 
     if(options.onNotificationEnd) {
-        syncNotifications.on('update', options.onNotificationEnd);
+        syncNotifications.on('end', options.onNotificationEnd);
     }
 
 };

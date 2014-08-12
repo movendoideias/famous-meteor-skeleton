@@ -16,8 +16,9 @@ AppView = function() {
     this.pageViewPos = new Transitionable(0);
     this.pageViewHorizontalPos = new Transitionable(0);
     this.timelineViewPos = new Transitionable(window.innerHeight);
-    this.notificationViewPos = new Transitionable(-window.innerHeight);
-    this.menuViewPos = new Transitionable(0);
+    //this.notificationViewPos = new Transitionable(-window.innerHeight);
+    this.notificationViewPos = new Transitionable(-80);
+    this.menuViewPos = new Transitionable(-this.options.menuOpenPosition);
 
     _createHeaderView.call(this);
     _createPageView.call(this);
@@ -121,15 +122,17 @@ AppView.prototype.toggleMenu = function() {
 };
 
 AppView.prototype.menuSlideRight = function() {
+    this.menuViewPos.set(-this.options.menuOpenPosition, this.options.menuTransition);
     this.pageViewPos.set(0, this.options.menuTransition, function() {
         this.menuToggle = false;
     }.bind(this));
 };
 
 AppView.prototype.menuSlideLeft = function() {
+    this.menuViewPos.set(0, this.options.menuTransition);
     this.pageViewPos.set(this.options.menuOpenPosition, this.options.menuTransition, function() {
         this.menuToggle = true;
-        this.menuView.animateStrips();
+        //this.menuView.animateStrips();
     }.bind(this));
 };
 
@@ -156,16 +159,17 @@ AppView.prototype.toggleTimeline = function() {
 
 AppView.prototype.notificationSlideDown = function() {
     this.pageViewHorizontalPos.set(window.innerHeight - 80, this.options.menuTransition);
-    this.notificationViewPos.set(-80, this.options.menuTransition, function() {
+    /*this.notificationViewPos.set(-80, this.options.menuTransition, function() {
         this.toggleNotification = false;
-    }.bind(this));
+    }.bind(this));*/
 };
 
 AppView.prototype.notificationSlideUp = function() {
     this.pageViewHorizontalPos.set(0, this.options.menuTransition);
+    /*
     this.notificationViewPos.set(-window.innerHeight, this.options.menuTransition, function() {
         this.toggleNotification = true;
-    }.bind(this));
+    }.bind(this));*/
 };
 
 AppView.prototype.toggleNotification = function() {
@@ -204,9 +208,9 @@ function _handleSwipe() {
 
         onNotificationUpdate: function(data) {
             var currentPosition = this.pageViewHorizontalPos.get();
+            var currentNotificationPos = this.notificationViewPos.get();
 
             this.pageViewHorizontalPos.set(Math.max(0, currentPosition + data.delta));
-
         }.bind(this),
 
         onNotificationEnd: function(data) {
