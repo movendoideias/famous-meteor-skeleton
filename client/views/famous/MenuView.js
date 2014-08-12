@@ -17,8 +17,8 @@ MenuView.prototype.constructor = MenuView;
 MenuView.DEFAULT_OPTIONS = {
     menuItemWidth: 276,
     menuItemHeight: 54,
-    topOffset: 37,
-    menuItemOffset: 90,
+    topOffset: 5,
+    menuItemOffset: 59,
     duration: 400,
     staggerDelay: 35
 };
@@ -73,7 +73,7 @@ function _createMenuItems() {
         var yOffset = this.options.topOffset + this.options.menuItemOffset * i;
 
         var menuItemModifier = new StateModifier({
-            transform: Transform.translate(0, yOffset, 0)
+            transform: Transform.translate(this.options.menuItemWidth, yOffset, 0)
         });
 
         this.menuItemModifiers.push(menuItemModifier);
@@ -86,7 +86,7 @@ function _createMenuItems() {
 
 MenuView.prototype.resetMenuItems = function () {
     for(var i = 0; i < this.menuItemModifiers.length; i++) {
-        var initX = -this.options.menuItemWidth/4;
+        var initX = this.options.menuItemWidth;
         var initY = this.options.topOffset + this.options.menuItemOffset * i + this.options.menuItemHeight * 2;
 
         this.menuItemModifiers[i].setOpacity(0.0);
@@ -106,8 +106,7 @@ MenuView.prototype.animateMenuItems = function() {
 
             this.menuItemModifiers[i].setOpacity(1, { duration: this.options.duration, curve: 'easeOut' });
             this.menuItemModifiers[i].setTransform(
-                Transform.translate( 0, yOffset, 0),
-                { duration: this.options.duration, curve: 'easeOut' });
+                Transform.translate( 0, yOffset, 0), { duration: this.options.duration, curve: 'easeOut' });
         }.bind(this, i), i*this.options.staggerDelay);
     }
 };

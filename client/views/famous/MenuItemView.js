@@ -24,10 +24,8 @@ MenuItemView.DEFAULT_OPTIONS = {
 function _createBody() {
     var surface = new Surface({
         size: [this.options.width, this.options.height],
-        content: "<a href='/" + this.options.url + "'>" + this.options.title + "</a>",
-        properties: {
-            fontSize: '24px'
-        }
+        classes: ['menu-item-container'],
+        content: "<a href='/" + this.options.url + "'>" + this.options.title + "</a>"
     });
 
     this._add(surface);

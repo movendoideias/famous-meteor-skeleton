@@ -129,6 +129,7 @@ AppView.prototype.menuSlideRight = function() {
     this.menuViewPos.set(-this.options.menuOpenPosition, this.options.menuTransition);
     this.pageViewPos.set(0, this.options.menuTransition, function() {
         this.menuOpen = false;
+        this.menuView.resetMenuItems();
         //callback();
     }.bind(this));
 };
@@ -186,9 +187,7 @@ AppView.prototype.notificationSlideUp = function() {
 };
 
 AppView.prototype.toggleNotification = function() {
-    
-
-    
+     
     if(this.notificationOpen) {
         this.notificationSlideUp();
     } else {
