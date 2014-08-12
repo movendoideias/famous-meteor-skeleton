@@ -17,10 +17,8 @@ MenuItemView.DEFAULT_OPTIONS = {
     title: 'Menu Sem Nome',
     url: '',
     fontSize: 26,
-    width: 276,
-    height: 55,
-    angle: -0.2,
-    iconSize: 32,
+    width: null,
+    height: null
 };
 
 function _createBody() {
@@ -32,15 +30,7 @@ function _createBody() {
         }
     });
 
-    var rotateModifier = new StateModifier({
-        transform: Transform.rotateZ(this.options.angle)
-    });
-
-    var skewModifier = new StateModifier({
-        transform: Transform.skew(0, 0, this.options.angle)
-    });
-
-    this._add(rotateModifier).add(skewModifier).add(surface);
+    this._add(surface);
 }
 
 

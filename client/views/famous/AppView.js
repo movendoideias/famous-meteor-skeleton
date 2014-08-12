@@ -137,7 +137,7 @@ AppView.prototype.menuSlideLeft = function() {
     this.menuViewPos.set(0, this.options.menuTransition);
     this.pageViewPos.set(this.options.menuOpenPosition, this.options.menuTransition, function() {
         this.menuOpen = true;
-        //this.menuView.animateStrips();
+        this.menuView.animateMenuItems();
     }.bind(this));
 };
 
