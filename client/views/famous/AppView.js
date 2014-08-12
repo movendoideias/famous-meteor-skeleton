@@ -46,7 +46,7 @@ AppView.DEFAULT_OPTIONS = {
         curve: 'easeOut'
     },
     timelineOpenPosition: -276,
-    posThreshold: window.innerHeight / 2,
+    posThreshold: window.innerHeight / 3,
     velThreshold: 0.75
 };
 

@@ -29,12 +29,9 @@ HeaderView.prototype.handleSwipe = function(options) {
         { direction : GenericSync.DIRECTION_Y }
     );
 
-    //this.subscribe(this.titleSurface);
     syncNotifications.subscribe(this.backgroundSurface);
 
     options = options || {};
-    
-    this.pipe(syncNotifications);
     
     if(options.onNotificationUpdate) {
         syncNotifications.on('update', options.onNotificationUpdate);
