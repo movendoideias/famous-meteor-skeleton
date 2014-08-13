@@ -62,7 +62,8 @@ function _createHeader() {
         }
     });
     var titleMod = new Modifier({
-        origin: [0.5, 0]
+        origin: [0.5, 0],
+        transform: Transform.translate(0, 0, 5)
     });
     
     this.notificationSurface = new Surface({
@@ -74,7 +75,7 @@ function _createHeader() {
     });
     var notificationModifier = new StateModifier({
         origin: [1, 0],
-        transform: Transform.translate(-70, 0, 0)
+        transform: Transform.translate(-70, 0, 5)
     });
 
     this.profileIconSurface = new ImageSurface({
@@ -83,7 +84,8 @@ function _createHeader() {
         content: 'http://images4.wikia.nocookie.net/__cb20100508215330/halofanon/images/a/a0/Tony_Stark.png'
     });
     var profileIconMod = new Modifier({
-        origin: [1, 0]
+        origin: [1, 0],
+        transform: Transform.translate(0, 0, 5)
     });
 
     //this.add(titleMod).add(this.titleSurface);

@@ -2,6 +2,11 @@ var View = require('famous/core/View');
 var Surface = require('famous/core/Surface');
 var Transform = require('famous/core/Transform');
 var StateModifier = require('famous/modifiers/StateModifier');
+var Modifier = require("famous/core/Modifier");
+var Scrollview = require("famous/views/Scrollview");
+var View = require('famous/core/View');
+var ViewSequence = require('famous/core/ViewSequence');
+var ContainerSurface = require("famous/surfaces/ContainerSurface");
 
 TimelineView = function () {
     View.apply(this, arguments);
@@ -34,41 +39,93 @@ function _createBody() {
         }
     });
     this.bringBackModifier = new StateModifier({
-        transform: Transform.translate(60, -40, 1)
+        transform: Transform.translate(60, -40, 2)
     });
 
-    this._add(this.bringBackModifier).add(this.bringBackSurface);
-    this._add(surface);
+    this.add(this.bringBackModifier).add(this.bringBackSurface);
+    this.add(surface);
 }
 
 function _createSearchHeader () {
+    var headerView = new View();
+    
+    this.add(headerView);
+    
+    var headerMod = new StateModifier({
+        transform: Transform.translate(0, 0, 2)
+    })
+    
+    var x = headerView.add(headerMod);
+    
     var searchSurface = new Surface({
-        size: [undefined, 150],
+         size: [undefined, 150],
         classes: ['timeline-search-wrapper']
+    });    
+    var searchMod = new StateModifier({
+        transform: Transform.behind
     });
-
+    
+     x.add(searchMod).add(searchSurface);
+    
     var searchInput = new Surface({
         content : "<input type='text' class='red-input' value='Digite o que você gostaria de fazer'>" 
     });
     var searchInputMod = new StateModifier({
+        size:[undefined,0],
         transform: Transform.translate(0, 100, 1)
     })
-
-    this._add(searchInputMod).add(searchInput);
-    this._add(searchSurface);
+       
+    x.add(searchInputMod).add(searchInput);
+    
 }
 
 function _createResultsBox () {
-    var resultsSurface = new Surface({
-        size: [undefined, undefined],
-        classes: ['timeline-results-wrapper'],
-        content: 'conteúdo da timeline'
+    var scrollView = new Scrollview();
+    console.log(screen.height);
+    console.log(window.innerHeight);
+    var containerScroll = new ContainerSurface({
+        size: [undefined, document.documentElement.clientHeight - 150],
+        properties: {
+            overflow: 'hidden'
+        }
     });
-    var resultsModifier = new StateModifier({
+    
+    var viewMod = new Modifier({
         transform: Transform.translate(0, 150, 1)
     })
+    
+    this.add(viewMod).add(containerScroll); 
+    
+    var postsView = new ViewSequence();
+    scrollView.sequenceFrom(postsView);
+    
+    for(var i = 0; i < 20; i++){
 
-    this._add(resultsModifier).add(resultsSurface);
+        var postView = new View();
+        
+        var postMod = new StateModifier({
+            size: [undefined, 155]
+        });
+
+        var resultsSurface = new Surface({
+            size: [undefined, 150],
+            classes: ['timeline-results-wrapper'],
+            content: 'conteúdo da timeline ' + i,
+            properties: {
+                backgroundColor: '#A0A0A0',
+                lineHeight: '150px',
+                marginTop: '10px'
+            }
+        });
+                
+        resultsSurface.pipe(scrollView);  
+        
+        var y  = postView.add(postMod);
+        y.add(resultsSurface);
+        
+        postsView.push(postView);
+    } 
+    containerScroll.add(scrollView);
 }
 
 function _setListeners() {
