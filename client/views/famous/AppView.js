@@ -125,11 +125,12 @@ AppView.prototype.toggleMenu = function() {
     this.menuOpen = !this.menuOpen;
 };
 
-AppView.prototype.menuSlideRight = function() {
+AppView.prototype.menuSlideRight = function(callback) {
     this.menuViewPos.set(-this.options.menuOpenPosition, this.options.menuTransition);
     this.pageViewPos.set(0, this.options.menuTransition, function() {
         this.menuOpen = false;
-        //callback();
+        if(callback)
+            callback();
     }.bind(this));
 };
 
@@ -213,11 +214,9 @@ AppView.prototype.goTo = function(templateName) {
     }
  
     if(this.menuOpen) {
-        this.menuSlideRight();
-        self.pageView.goTo(view.view);
-        /*function () {
+        this.menuSlideRight( function () {
             self.pageView.goTo(view.view);        
-        }*/
+        });
     }
     else {
         this.pageView.goTo(view.view);        
