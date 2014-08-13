@@ -29,7 +29,7 @@ HeaderView.prototype.handleSwipe = function(options) {
         { direction : GenericSync.DIRECTION_Y }
     );
 
-    syncNotifications.subscribe(this.backgroundSurface);
+    syncNotifications.subscribe(this.notificationSurface);
 
     options = options || {};
     
@@ -51,14 +51,6 @@ function _createHeader() {
         }
     });
     
-    this.searchIconSurf = new ImageSurface({
-        size: [44, 44],
-        content: 'http://cdn.flaticon.com/png/256/34148.png',
-        properties: {
-            padding: '5px',
-        }
-    });
-
     this.titleSurface = new Surface({
         size: [140, 35],
         content: 'Título',
@@ -73,46 +65,36 @@ function _createHeader() {
         origin: [0.5, 0]
     });
     
-    this.notificationSurface = new ImageSurface({
-        size: [40, 44],
-        content: 'http://cdn.flaticon.com/png/256/54810.png',
+    this.notificationSurface = new Surface({
+        size: [30, 50],
+        content: '^^',
         properties: {
-            paddingTop: '5px',
-            height: 'auto'
+            backgroundColor: 'rgb(63, 63, 63)'
         }
     });
     var notificationModifier = new StateModifier({
         origin: [1, 0],
-        transform: Transform.translate(-40, 0, 0)
+        transform: Transform.translate(-70, 0, 0)
     });
-    
 
     this.profileIconSurface = new ImageSurface({
-        size: [40, 44],
-        content: 'http://cdn.flaticon.com/png/256/17797.png',
-        properties: {
-            paddingTop: '5px',
-            height: 'auto'
-        }
+        size: [48, 48],
+        classes: ['circle-profile-picture'],
+        content: 'http://images4.wikia.nocookie.net/__cb20100508215330/halofanon/images/a/a0/Tony_Stark.png'
     });
     var profileIconMod = new Modifier({
         origin: [1, 0]
     });
 
-    this.add(this.searchIconSurf);
-    this.add(titleMod).add(this.titleSurface);
+    //this.add(titleMod).add(this.titleSurface);
     this.add(profileIconMod).add(this.profileIconSurface);
     this.add(notificationModifier).add(this.notificationSurface);
-    this.add(this.backgroundSurface);
+    //this.add(this.backgroundSurface);
 }
 
 function _setListeners() {
     this.profileIconSurface.on('click', function() {
         this._eventOutput.emit('menuToggle');
-    }.bind(this));
-
-    this.searchIconSurf.on('click', function() {
-        this._eventOutput.emit('timelineToggle');
     }.bind(this));
 
     this.notificationSurface.on('click', function() {
