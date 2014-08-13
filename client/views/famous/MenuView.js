@@ -7,7 +7,7 @@ var Timer         = require('famous/utilities/Timer');
 MenuView = function () {
     View.apply(this, arguments);
 
-    _createBody.call(this);
+    _createBackground.call(this);
     _createMenuItems.call(this);
 }
 
@@ -15,33 +15,32 @@ MenuView.prototype = Object.create(View.prototype);
 MenuView.prototype.constructor = MenuView;
 
 MenuView.DEFAULT_OPTIONS = {
-    stripData: {},
-    angle: -0.2,
-    stripWidth: 276,
-    stripHeight: 54,
-    topOffset: 37,
-    stripOffset: 58,
-    staggerDelay: 35,
-    featureOffset: 280,
-    transition: {
-        duration: 400,
-        curve: 'easeOut'
-    }
+    menuItemWidth: 276,
+    menuItemHeight: 54,
+    topOffset: 5,
+    menuItemOffset: 59,
+    duration: 400,
+    staggerDelay: 35
 };
 
-function _createBody() {
-    var surface = new Surface({
+function _createBackground() {
+    var backSurface = new Surface({
+        size: [276, undefined],
         classes: ['menu-wrapper']
     });
+
+    this._add(backSurface);
+
     var sizeModifier = new StateModifier({
-        size: [276, undefined],
+        //size: [276, undefined],
         origin: [1, 0]
     });
-    
-    this._add(sizeModifier).add(surface);
+
+    this._add(sizeModifier).add(backSurface);
 }
 
 function _createMenuItems() {
+
     var view = new View();
     var sizeModifier = new StateModifier({
         size: [276, undefined],
@@ -51,65 +50,63 @@ function _createMenuItems() {
     var sizeNode = view.add(sizeModifier);
 
     this.menuItemModifiers = [];
-    var yOffset = 40;
 
     var menuItemsData = [
         { title: 'Início', url: '', iconUrl: 'img/strip-icons/famous.png' },
         { title: 'Eventos', url: 'events', iconUrl: 'img/strip-icons/famous.png' },
         { title: 'Meus Topas', url: 'events', iconUrl: 'img/strip-icons/famous.png' },
         { title: 'Amigos', url: 'friends', iconUrl: 'img/strip-icons/famous.png' },
-        { title: 'Perfil', url: 'settings', iconUrl: 'img/strip-icons/famous.png' },
+        { title: 'Perfil', url: 'settings', iconUrl: 'img/strip-icons/famous.png' }
     ];
 
-    for (var i = 0; i < menuItemsData.length; i++) {
+    
+    for (var i = 0, l = menuItemsData.length;i < l; i++) {
 
         var menuItemView = new MenuItemView({
             iconUrl: menuItemsData[i].iconUrl,
             title: menuItemsData[i].title,
-            url: menuItemsData[i].url
-            
+            url: menuItemsData[i].url,
+            width: this.options.menuItemWidth,
+            height: this.options.menuItemHeight
         });
 
+        var yOffset = this.options.topOffset + this.options.menuItemOffset * i;
+
         var menuItemModifier = new StateModifier({
-            transform: Transform.translate(0, yOffset, 0),
-            size: [undefined, 100]
+            transform: Transform.translate(this.options.menuItemWidth, yOffset, 0)
         });
 
         this.menuItemModifiers.push(menuItemModifier);
         sizeNode.add(menuItemModifier).add(menuItemView);
-
-        yOffset += 40;
     }
-    
+
     this._add(sizeNode);
-}
+};
 
 
-MenuView.prototype.resetStrips = function() {
+MenuView.prototype.resetMenuItems = function () {
     for(var i = 0; i < this.menuItemModifiers.length; i++) {
-        var initX = -this.options.stripWidth;
-        var initY = this.options.topOffset
-        + this.options.stripOffset * i
-        + this.options.stripWidth * Math.tan(-this.options.angle);
+        var initX = this.options.menuItemWidth;
+        var initY = this.options.topOffset + this.options.menuItemOffset * i + this.options.menuItemHeight * 2;
 
+        this.menuItemModifiers[i].setOpacity(0.0);
         this.menuItemModifiers[i].setTransform(Transform.translate(initX, initY, 0));
     }
 };
 
-MenuView.prototype.animateStrips = function() {
-    this.resetStrips();
-
-    var transition = this.options.transition;
-    var delay = this.options.staggerDelay;
-    var stripOffset = this.options.stripOffset;
-    var topOffset = this.options.topOffset;
+MenuView.prototype.animateMenuItems = function() {
+    this.resetMenuItems();
 
     for(var i = 0; i < this.menuItemModifiers.length; i++) {
-        Timer.setTimeout(function(i) {
-            var yOffset = topOffset + stripOffset * i;
+        // use Timer.setTimeout instead of window.setTimeout
+        // Time can be found in famous/utilities
 
+        Timer.setTimeout(function(i) {
+            var yOffset = this.options.topOffset + this.options.menuItemOffset * i;
+
+            this.menuItemModifiers[i].setOpacity(1, { duration: this.options.duration, curve: 'easeOut' });
             this.menuItemModifiers[i].setTransform(
-                Transform.translate( 0, yOffset, 0), transition);
-        }.bind(this, i), i * delay);
+                Transform.translate( 0, yOffset, 0), { duration: this.options.duration, curve: 'easeOut' });
+        }.bind(this, i), i*this.options.staggerDelay);
     }
 };
