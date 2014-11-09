@@ -3,7 +3,7 @@ famous-meteor-skeleton
 
 Simple structure for applications using meteor + famo.us.
 
-<iframe title="Famous Meteor Skeleton" width="480" height="390" src="http://youtu.be/Bcp5L-vrXko" frameborder="0" allowfullscreen></iframe>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Bcp5L-vrXko" target="_blank"><img src="http://img.youtube.com/vi/Bcp5L-vrXko/0.jpg" alt="Topa (a meteor + famo.us integration)" width="240" height="180" border="10" /></a>
 
 Uses the famo.us javascript library for scrolling, bouncy transitions, pull down views and menus.
 
