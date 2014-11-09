@@ -17,7 +17,7 @@ NotificationView.DEFAULT_OPTIONS = {};
 function _createBody() {
     var surface = new Surface({
         size: [undefined, undefined],
-        content: 'Notificações',
+        content: 'Notifications',
         classes: ['notification-wrapper']
     });
     

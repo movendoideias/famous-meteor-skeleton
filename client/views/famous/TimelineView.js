@@ -68,7 +68,7 @@ function _createSearchHeader () {
      x.add(searchMod).add(searchSurface);
     
     var searchInput = new Surface({
-        content : "<input type='text' class='red-input' value='Digite o que você gostaria de fazer'>" 
+        content : "<input type='text' class='red-input' value='Write something'>" 
     });
     var searchInputMod = new StateModifier({
         size:[undefined,0],
@@ -110,7 +110,7 @@ function _createResultsBox () {
         var resultsSurface = new Surface({
             size: [undefined, 150],
             classes: ['timeline-results-wrapper'],
-            content: 'conteúdo da timeline ' + i,
+            content: 'Timeline content ' + i,
             properties: {
                 backgroundColor: '#A0A0A0',
                 lineHeight: '150px',

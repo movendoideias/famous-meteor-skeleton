@@ -14,7 +14,7 @@ MenuItemView.prototype.constructor = MenuItemView;
 
 MenuItemView.DEFAULT_OPTIONS = {
     iconUrl: '',
-    title: 'Menu Sem Nome',
+    title: 'Nameless menu',
     url: '',
     fontSize: 26,
     width: null,
