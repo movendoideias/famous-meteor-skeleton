@@ -52,11 +52,11 @@ function _createMenuItems() {
     this.menuItemModifiers = [];
 
     var menuItemsData = [
-        { title: 'Início', url: '', iconUrl: 'img/strip-icons/famous.png' },
-        { title: 'Eventos', url: 'events', iconUrl: 'img/strip-icons/famous.png' },
-        { title: 'Meus Topas', url: 'events', iconUrl: 'img/strip-icons/famous.png' },
-        { title: 'Amigos', url: 'friends', iconUrl: 'img/strip-icons/famous.png' },
-        { title: 'Perfil', url: 'settings', iconUrl: 'img/strip-icons/famous.png' }
+        { title: 'Start', url: '', iconUrl: 'img/strip-icons/famous.png' },
+        { title: 'Events', url: 'events', iconUrl: 'img/strip-icons/famous.png' },
+        { title: 'My items', url: 'events', iconUrl: 'img/strip-icons/famous.png' },
+        { title: 'Friends', url: 'friends', iconUrl: 'img/strip-icons/famous.png' },
+        { title: 'Profile', url: 'settings', iconUrl: 'img/strip-icons/famous.png' }
     ];
 
     
